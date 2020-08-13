@@ -1,1 +1,0 @@
-/home/n3m6/.vimrc

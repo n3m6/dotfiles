@@ -1,5 +1,27 @@
 set nocompatible
 
+filetype off    " required to load plugins
+
+call plug#begin()
+Plug 'pangloss/vim-javascript'    " JavaScript support
+Plug 'leafgarland/typescript-vim' " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
+
+" file type
+filetype on
+filetype plugin on
+filetype indent on
+
+let mapleader = " "
+
+" Look and Feel
+set background=dark
+set ttyfast
+set lazyredraw
+set updatetime=300
+
 " shows what you are typing as a command
 set showcmd
 
@@ -12,7 +34,7 @@ set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
-" edit settings
+" Tab settings
 set expandtab
 set smarttab
 set nojoinspaces
@@ -20,8 +42,18 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set ts=2
+
+" Paste
 set showmode
+
+" Indentation
 set autoindent
+set cindent
+set smartindent
+
+" Set default encoding to utf-8
+set encoding=utf-8
+set termencoding=utf-8
 
 " search settings
 set hlsearch
@@ -29,21 +61,17 @@ set ignorecase
 set incsearch
 set smartcase
 
-" file type
-filetype on
-filetype plugin on
-filetype indent on
-
 " syntax highlighting
 syntax enable
 
-" show numbers
+" Numbers
 set number
+set numberwidth=4
+set ruler
 
 " status line
 " set laststatus=2
 " set statusline=%F%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v][%p%%]
-" set ruler
 
 " set view
 set scrolloff=5
@@ -52,6 +80,41 @@ set sidescrolloff=5
 " wild menu
 set wildmode=longest:full
 set wildmenu
+
+" Faster saving and exiting
+nnoremap <silent><leader>w :w!<CR>
+nnoremap <silent><leader>q :q!<CR>
+nnoremap <silent><leader>x :x<CR>
+" Open Vim configuration file for editing
+nnoremap <silent><leader>2 :e ~/.vimrc<CR>
+" Source Vim configuration file and install plugins
+nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+
+" Toggle relative line numbers
+nnoremap <leader>rn :set relativenumber!<cr>
+
+" CoC extensions
+let g:coc_global_extensions = ['coc-solargraph', 'coc-tsserver', 'coc-json']
+
+" Add CoC Prettier if prettier is installed
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
+
+" Add CoC ESLint if ESLint is installed
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  let g:coc_global_extensions += ['coc-eslint']
+endif
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " automatic commands
 if has('autocmd')
